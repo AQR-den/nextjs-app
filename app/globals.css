@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #070f1f;
+  --panel: #121f35;
+  --muted: #9bb1cd;
+  --accent: #f5c84c;
+  --accent-strong: #ffdc7e;
+  --electric: #5de4ff;
+  --lime: #7cff9a;
+  --font-body: "Avenir Next", "Montserrat", "Segoe UI", sans-serif;
+  --font-heading: "Bebas Neue", "Oswald", "Franklin Gothic Medium", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  background-image:
+    linear-gradient(120deg, rgba(7, 15, 31, 0.92), rgba(7, 15, 31, 0.82), rgba(12, 20, 36, 0.7)),
+    url("/images/hero-night.webp");
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-panel: var(--panel);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-electric: var(--electric);
+  --color-lime: var(--lime);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(245, 200, 76, 0.35);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.01em;
+}
+
+p {
+  line-height: 1.6;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pagefade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes badgepulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.16);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(440px);
+  }
+}

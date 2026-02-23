@@ -1,0 +1,53 @@
+services:
+  web:
+    build:
+      context: .
+      target: runner
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://api:4000/api}
+      NEXT_PUBLIC_ENABLE_ADMIN: ${NEXT_PUBLIC_ENABLE_ADMIN:-false}
+      NEXT_PUBLIC_DEMO_MODE: ${NEXT_PUBLIC_DEMO_MODE:-true}
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: ./api-service
+    environment:
+      NODE_ENV: production
+      API_PORT: 4000
+      APP_TIMEZONE: ${APP_TIMEZONE:-Africa/Johannesburg}
+      DEMO_MODE: ${DEMO_MODE:-true}
+      DEMO_PASSWORD: ${DEMO_PASSWORD:-DemoPass123!}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-tekkerz}:${POSTGRES_PASSWORD:-tekkerz}@db:5432/${POSTGRES_DB:-tekkerz}
+      WHATSAPP_PROVIDER: ${WHATSAPP_PROVIDER:-mock}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-}
+      TWILIO_WHATSAPP_FROM: ${TWILIO_WHATSAPP_FROM:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+    ports:
+      - "4000:4000"
+    command: ["npm", "start"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-tekkerz}
+      POSTGRES_USER: ${POSTGRES_USER:-tekkerz}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tekkerz}
+    volumes:
+      - tekkerz_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tekkerz} -d ${POSTGRES_DB:-tekkerz}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  tekkerz_pg_data:
