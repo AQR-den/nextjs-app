@@ -24,7 +24,6 @@ function paymentTone(status?: string): "neutral" | "success" | "warning" | "dang
 function bookingTone(status: string): "neutral" | "success" | "warning" | "danger" {
   if (status === "confirmed") return "success";
   if (status === "cancelled") return "neutral";
-  if (status === "expired") return "danger";
   if (status === "expired_hold") return "warning";
   return "warning";
 }

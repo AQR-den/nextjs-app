@@ -11,6 +11,7 @@ const stateStyles = {
   pending_payment: "border-amber-300/40 bg-amber-500/10",
   individuals_slot:
     "border-fuchsia-300/70 bg-fuchsia-500/15 shadow-[0_0_0_1px_rgba(244,114,182,0.35)] hover:scale-[1.02]",
+  held: "border-amber-300/40 bg-amber-500/10 opacity-70",
   unavailable: "border-white/10 bg-white/5 opacity-40"
 };
 
@@ -19,6 +20,7 @@ const stateLabel = {
   booked: "Booked",
   pending_payment: "Pending payment",
   individuals_slot: "Individuals slot",
+  held: "Held",
   unavailable: "Past"
 };
 
