@@ -92,7 +92,8 @@ export const mockApi = {
     const days = [] as Array<{ date: string; available: number; total: number; status: "available" | "partial" | "full" }>;
     const totalSlots = (BUSINESS_HOURS.closesAtHour - BUSINESS_HOURS.opensAtHour) * COURTS.length;
 
-    for (let i = 0; i < target.daysInMonth; i += 1) {
+    const daysInMonth = target.daysInMonth ?? start.daysInMonth ?? 30;
+    for (let i = 0; i < daysInMonth; i += 1) {
       const date = start.plus({ days: i });
       let available = 0;
       for (const court of COURTS) {

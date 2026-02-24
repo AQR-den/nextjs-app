@@ -22,7 +22,7 @@ function paymentTone(status?: string): "neutral" | "success" | "warning" | "dang
 }
 
 function bookingTone(status: string): "neutral" | "success" | "warning" | "danger" {
-  if (status === "confirmed" || status === "booked") return "success";
+  if (status === "confirmed") return "success";
   if (status === "cancelled") return "neutral";
   if (status === "expired") return "danger";
   if (status === "expired_hold") return "warning";
@@ -74,7 +74,7 @@ export function MyBookingsList({ bookings }: { bookings: BookingWithRelations[] 
               <div className="flex flex-wrap items-center gap-2">
                 {entry.booking.demoScenario ? <Badge tone="warning">Demo</Badge> : null}
                 <Badge tone={bookingTone(entry.booking.status)}>
-                  {entry.booking.status === "booked" || entry.booking.status === "confirmed" ? "Confirmed" : entry.booking.status}
+                  {entry.booking.status === "confirmed" ? "Confirmed" : entry.booking.status}
                 </Badge>
                 <Badge tone={paymentTone(entry.payment?.status)}>{entry.payment?.status || "Payment Pending"}</Badge>
               </div>

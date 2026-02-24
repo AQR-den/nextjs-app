@@ -21,7 +21,7 @@ const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 function buildCalendar(month: DateTime) {
   const start = month.startOf("month");
   const startWeekday = start.weekday; // 1-7 (Mon-Sun)
-  const daysInMonth = month.daysInMonth;
+  const daysInMonth = month.daysInMonth ?? start.daysInMonth ?? 30;
   const cells = [] as Array<{ date: DateTime | null; key: string }>;
 
   for (let i = 1; i < startWeekday; i += 1) {
