@@ -32,6 +32,10 @@ function now() {
   return DateTime.now().setZone(TIMEZONE);
 }
 
+function iso(dt: DateTime) {
+  return dt.toISO() ?? "";
+}
+
 function loadState(): MockState {
   if (typeof window === "undefined") return defaultState;
   const raw = window.localStorage.getItem(STORAGE_KEY);
@@ -103,7 +107,7 @@ export const mockApi = {
           const conflict = state.bookings.find(
             (b) =>
               b.courtId === court.id &&
-              b.startDateTime === slotStart.toISO() &&
+              b.startDateTime === iso(slotStart) &&
               (b.status === "confirmed" || b.status === "pending_verification")
           );
           if (!conflict || (conflict.status === "pending_verification" && !isHeldActive(conflict))) {
@@ -131,10 +135,10 @@ export const mockApi = {
         const isSpecial = court.id === 4 && start.hour === 17 && start.minute === 0;
         const past = start <= now();
         const booking = state.bookings.find(
-          (b) => b.courtId === court.id && b.startDateTime === start.toISO() && b.status === "confirmed"
+          (b) => b.courtId === court.id && b.startDateTime === iso(start) && b.status === "confirmed"
         );
         const held = state.bookings.find(
-          (b) => b.courtId === court.id && b.startDateTime === start.toISO() && b.status === "pending_verification"
+          (b) => b.courtId === court.id && b.startDateTime === iso(start) && b.status === "pending_verification"
         );
 
         let stateLabel: Slot["state"] = "available";
@@ -145,8 +149,8 @@ export const mockApi = {
 
         slots.push({
           courtId: court.id,
-          startDateTime: start.toISO(),
-          endDateTime: end.toISO(),
+          startDateTime: iso(start),
+          endDateTime: iso(end),
           isSpecialIndividualsSlot: isSpecial,
           state: stateLabel,
           price: isSpecial ? INDIVIDUAL_SLOT_PRICE : BASE_SLOT_PRICE
@@ -183,9 +187,9 @@ export const mockApi = {
         bookingId: existing.id,
         phone: existing.phone,
         code,
-        otpExpiresAt: now().plus({ minutes: OTP_TTL_MINUTES }).toISO(),
+        otpExpiresAt: iso(now().plus({ minutes: OTP_TTL_MINUTES })),
         attempts: 0,
-        lastSentAt: now().toISO(),
+        lastSentAt: iso(now()),
         type: "confirm_booking"
       };
       state.verifications.push(verification);
@@ -213,9 +217,9 @@ export const mockApi = {
       startDateTime: payload.startDateTime,
       endDateTime: payload.endDateTime,
       status: "pending_verification",
-      createdAt: now().toISO(),
-      cancellationDeadline: start.minus({ hours: 24 }).toISO(),
-      holdExpiresAt: now().plus({ minutes: HOLD_MINUTES }).toISO()
+      createdAt: iso(now()),
+      cancellationDeadline: iso(start.minus({ hours: 24 })),
+      holdExpiresAt: iso(now().plus({ minutes: HOLD_MINUTES }))
     };
 
     const code = generateCode();
@@ -224,9 +228,9 @@ export const mockApi = {
       bookingId: booking.id,
       phone: payload.phone,
       code,
-      otpExpiresAt: now().plus({ minutes: OTP_TTL_MINUTES }).toISO(),
+      otpExpiresAt: iso(now().plus({ minutes: OTP_TTL_MINUTES })),
       attempts: 0,
-      lastSentAt: now().toISO(),
+      lastSentAt: iso(now()),
       type: "confirm_booking"
     };
 
@@ -276,9 +280,9 @@ export const mockApi = {
       bookingId: booking.id,
       phone: payload.phone,
       code,
-      otpExpiresAt: now().plus({ minutes: OTP_TTL_MINUTES }).toISO(),
+      otpExpiresAt: iso(now().plus({ minutes: OTP_TTL_MINUTES })),
       attempts: 0,
-      lastSentAt: now().toISO(),
+      lastSentAt: iso(now()),
       type: "cancel_booking"
     };
     state.verifications.push(verification);
@@ -319,9 +323,9 @@ export const mockApi = {
       bookingId: `lookup_${payload.phone}`,
       phone: payload.phone,
       code,
-      otpExpiresAt: now().plus({ minutes: OTP_TTL_MINUTES }).toISO(),
+      otpExpiresAt: iso(now().plus({ minutes: OTP_TTL_MINUTES })),
       attempts: 0,
-      lastSentAt: now().toISO(),
+      lastSentAt: iso(now()),
       type: "lookup"
     };
     state.verifications.push(verification);
