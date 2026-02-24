@@ -51,7 +51,7 @@ function AdminPanel({ token }: { token: string }) {
             <div key={entry.booking.id} className="flex flex-wrap items-center justify-between gap-2 rounded-md bg-white/5 px-3 py-2">
               <span>{entry.booking.reference} • {entry.court.name}</span>
               <div className="flex items-center gap-2">
-                <Badge tone={entry.booking.status === "booked" ? "success" : "neutral"}>{entry.booking.status}</Badge>
+                <Badge tone={entry.booking.status === "confirmed" ? "success" : "neutral"}>{entry.booking.status}</Badge>
                 <Badge tone={["refunded", "credited", "paid"].includes(entry.payment?.status || "") ? "success" : "warning"}>
                   {entry.payment?.status || "payment_pending"}
                 </Badge>
